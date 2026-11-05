@@ -1,0 +1,5 @@
+.env
+.git
+dev
+glpi-mcp
+*.md

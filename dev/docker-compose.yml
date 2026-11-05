@@ -1,0 +1,26 @@
+# Throwaway GLPI 11 for developing glpi-mcp. Bound to 127.0.0.1 only.
+# Default web login: glpi / glpi. Do not put real data in here.
+name: glpi-dev
+services:
+  glpi:
+    image: glpi/glpi:11
+    restart: unless-stopped
+    env_file: .env
+    depends_on: [db]
+    ports:
+      - "127.0.0.1:8088:80"
+    volumes:
+      - glpi_data:/var/glpi
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: glpi
+      MARIADB_USER: glpi
+      MARIADB_PASSWORD: glpi-dev-only
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  glpi_data:
+  db_data:

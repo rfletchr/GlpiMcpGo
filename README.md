@@ -71,6 +71,21 @@ docker compose up -d   # HTTP on 127.0.0.1:3001
 
 Claude Code `.mcp.json`: `{"mcpServers":{"glpi":{"command":"glpi-mcp","args":[]}}}`
 
+## Binaries and releases
+
+Pre-built binaries (linux/mac amd64+arm64, windows amd64) are attached to each
+[GitHub release](https://github.com/rfletchr/GlpiMcpGo/releases). Download the one for your platform, put the
+GLPI settings from the table above in `.env` next to it (or in the MCP client's `env` block), then either run it
+over stdio (`./glpi-mcp-linux-amd64`) or as an HTTP server (`./glpi-mcp-linux-amd64 -http -addr 127.0.0.1:3001`).
+
+Cutting a release (maintainer): tag with an annotated message, which becomes the release notes, and push the tag.
+GitHub Actions runs `scripts/release.sh`: govulncheck, `go test`, cross-compile, `gh release create`.
+
+```bash
+git tag -a v0.1.0 -m "First release: read tools, friendly layer, gated write tools"
+git push origin v0.1.0
+```
+
 ## Tests
 
 `go test ./...` runs the client against a fake GLPI (httptest). Real response shapes are unverified until
